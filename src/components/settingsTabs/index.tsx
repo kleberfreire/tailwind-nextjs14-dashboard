@@ -3,7 +3,7 @@ import * as Tabs from "@radix-ui/react-tabs"
 import TabItem from "./tabItems"
 import { useState } from "react"
 
-export default function SettingsTab() {
+export function SettingsTab() {
   const [currentTab, setCurrentTab] = useState('tab1')
 
   return (
