@@ -1,34 +1,41 @@
 'use client'
-import { User } from "lucide-react";
-import { useFileInput } from "./root";
-import { useMemo } from "react";
 
-export function ImagePreview() {
-  const { files } = useFileInput()
+import { User } from 'lucide-react'
+import { useFileInput } from './Root'
+import { useMemo } from 'react'
+
+export interface ImagePreviewProps {}
+
+export function ImagePreview(props: ImagePreviewProps) {
+  const { multiple, files } = useFileInput()
+
+  if (multiple) {
+    throw new Error(
+      'Cannot use <ImagePreview /> component alongside multiple file upload input.',
+    )
+  }
 
   const previewURL = useMemo(() => {
-    if (files.length === 0) { 
+    if (files.length === 0) {
       return null
     }
 
     return URL.createObjectURL(files[0])
   }, [files])
-  
+
   if (previewURL === null) {
     return (
-      <div className="gri flex items-center justify-center rounded-full bg-violet-50 w-16 h-16">
-        <User className="w-8 h-8 text-violet-500"/>
+      <div className="flex h-16 w-16 items-center justify-center rounded-full bg-violet-50 dark:bg-zinc-800">
+        <User className="h-8 w-8 text-violet-500 dark:text-violet-300" />
       </div>
     )
   } else {
     return (
-      <img src={previewURL} alt="" className="w-16 h-16 rounded-full object-cover"/>
+      <img
+        className="h-16 w-16 rounded-full bg-violet-50 object-cover dark:bg-zinc-800"
+        src={previewURL}
+        alt=""
+      />
     )
   }
-
-  return (
-    <div className="gri flex items-center justify-center rounded-full bg-violet-50 w-16 h-16">
-      <User className="w-8 h-8 text-violet-500"/>
-    </div>
-  )
 }
